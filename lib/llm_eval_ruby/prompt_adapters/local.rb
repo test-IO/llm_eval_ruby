@@ -5,7 +5,7 @@ module LlmEvalRuby
     class Local
       class << self
         def fetch_prompt(name:, version: nil)
-          prompt_path = Rails.root.join(LlmEvalRuby.config.local_options['promts_paths'], "#{name}.txt")
+          prompt_path = Rails.root.join(LlmEvalRuby.config.local_options[:prompts_path], "#{name}.txt")
           File.read(prompt_path)
         end
   
