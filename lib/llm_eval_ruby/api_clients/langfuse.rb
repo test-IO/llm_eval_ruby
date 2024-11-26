@@ -7,8 +7,8 @@ module LlmEvalRuby
     class Langfuse
       include HTTParty
 
-      headers 'Content-Type' => 'application/json'
-  
+      headers "Content-Type" => "application/json"
+
       format :json
 
       raise_on [400, 401, 406, 422, 500]
@@ -18,9 +18,9 @@ module LlmEvalRuby
         self.class.basic_auth username, password
       end
 
-      def fetch_prompt(name: , version: 1)
+      def fetch_prompt(name:, version:)
         response = self.class.get("/prompts/#{name}", { query: { version: } })
-        response['prompt']
+        response["prompt"]
       end
     end
   end

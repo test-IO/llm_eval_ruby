@@ -10,7 +10,7 @@ module LlmEvalRuby
           client.fetch_prompt(name:, version:)
         end
 
-        def compile(name:, version:, variables:)
+        def compile(name:, variables:, version: nil)
           prompt = fetch_prompt(name:, version:)
           format(convert_prompt(prompt), variables)
         end
@@ -21,7 +21,8 @@ module LlmEvalRuby
           @client ||= ApiClients::Langfuse.new(**LlmEvalRuby.config.langfuse_options)
         end
 
-        def convert_prompt(prompt) # convert {{variable}} to %<variable>s
+        # convert {{variable}} to %<variable>s
+        def convert_prompt(prompt)
           prompt.gsub(/\{\{([^}]+)\}\}/, '%<\1>s')
         end
       end

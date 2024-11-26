@@ -10,7 +10,7 @@ module LlmEvalRuby
     def self.fetch(name:, version: nil)
       new(adapter: LlmEvalRuby.config.adapter).fetch(name: name, version: version)
     end
-  
+
     def self.compile(name:, variables:, version: nil)
       new(adapter: LlmEvalRuby.config.adapter).compile(name: name, variables: variables, version: version)
     end
@@ -29,7 +29,7 @@ module LlmEvalRuby
     def fetch(name:, version: nil)
       adapter.fetch_prompt(name:, version:)
     end
-  
+
     def compile(name:, variables:, version: nil)
       adapter.compile(name:, version:, variables:)
     end
