@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "llm_eval_ruby/version"
-require_relative "llm_eval_ruby/prompt_repository"
+require_relative "llm_eval_ruby/prompt"
 require_relative "llm_eval_ruby/configuration"
 
 module LlmEvalRuby
