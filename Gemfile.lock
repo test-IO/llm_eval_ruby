@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    llm_eval_ruby (0.1.0)
+    llm_eval_ruby (0.2.0)
       httparty (~> 0.22.0)
 
 GEM
