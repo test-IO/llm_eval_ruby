@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
+require_relative "base"
+require_relative "../prompts/roles/compiled"
 require_relative "../api_clients/langfuse"
 
 module LlmEvalRuby
   module PromptAdapters
-    class Langfuse
+    class Langfuse < Base
       class << self
         def fetch_prompt(name:, version: nil)
-          client.fetch_prompt(name:, version:)
+          response = client.fetch_prompt(name:, version:)
+          handle_response(response)
         end
 
-        def compile(name:, variables:, version: nil)
-          prompt = fetch_prompt(name:, version:)
-          format(convert_prompt(prompt), variables)
+        def compile(prompt:, variables:)
+          compiled = format(convert_prompt(prompt.content), variables)
+          LlmEvalRuby::Prompts::Roles::Compiled.new(role: prompt.role, content: compiled)
         end
 
         private

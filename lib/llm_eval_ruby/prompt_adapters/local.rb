@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require_relative "base"
+
 module LlmEvalRuby
   module PromptAdapters
-    class Local
+    class Local < Base
       class << self
         def fetch_prompt(name:, version: nil) # rubocop:disable Lint/UnusedMethodArgument
           prompt_path = Rails.root.join(LlmEvalRuby.config.local_options[:prompts_path], "#{name}.txt")
