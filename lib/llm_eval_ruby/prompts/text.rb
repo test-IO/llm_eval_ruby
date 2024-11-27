@@ -8,11 +8,11 @@ module LlmEvalRuby
       def fetch(name:, version: nil)
         adapter.fetch_prompt(name:, version:)[0]
       end
-  
-      def compile(name:, variables:, version: nil)
+
+      def fetch_and_compile(name:, variables:, version: nil)
         prompt = adapter.fetch_prompt(name:, version:)[0]
         adapter.compile(prompt:, variables:)
       end
-    end    
+    end
   end
 end

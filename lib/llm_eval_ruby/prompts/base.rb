@@ -7,15 +7,15 @@ module LlmEvalRuby
   module Prompts
     class Base
       attr_reader :adapter
-  
+
       def self.fetch(name:, version: nil)
         new(adapter: LlmEvalRuby.config.adapter).fetch(name: name, version: version)
       end
-  
-      def self.compile(name:, variables:, version: nil)
-        new(adapter: LlmEvalRuby.config.adapter).compile(name: name, variables: variables, version: version)
+
+      def self.fetch_and_compile(name:, variables:, version: nil)
+        new(adapter: LlmEvalRuby.config.adapter).fetch_and_compile(name: name, variables: variables, version: version)
       end
-  
+
       def initialize(adapter:)
         case adapter
         when :langfuse
@@ -26,12 +26,12 @@ module LlmEvalRuby
           raise "Unsupported adapter #{adapter}"
         end
       end
-  
+
       def fetch(name:, version: nil)
         raise NotImplementedError
       end
-  
-      def compile(name:, variables:, version: nil)
+
+      def fetch_and_compile(name:, variables:, version: nil)
         raise NotImplementedError
       end
     end
