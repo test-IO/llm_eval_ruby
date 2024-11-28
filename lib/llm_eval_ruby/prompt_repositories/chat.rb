@@ -3,7 +3,7 @@
 require_relative "base"
 
 module LlmEvalRuby
-  module Prompts
+  module PromptRepositories
     class Chat < Base
       def fetch(name:, version: nil)
         adapter.fetch_prompt(name:, version:)

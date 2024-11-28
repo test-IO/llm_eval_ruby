@@ -4,7 +4,7 @@ require_relative "../prompt_adapters/langfuse"
 require_relative "../prompt_adapters/local"
 
 module LlmEvalRuby
-  module Prompts
+  module PromptRepositories
     class Base
       attr_reader :adapter
 

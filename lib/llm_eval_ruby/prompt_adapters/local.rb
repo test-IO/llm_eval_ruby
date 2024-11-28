@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative "base"
-require_relative "../prompts/roles/compiled"
 
 module LlmEvalRuby
   module PromptAdapters
@@ -23,7 +22,7 @@ module LlmEvalRuby
 
         def compile(prompt:, variables:)
           compiled = format(convert_prompt(prompt.content), variables)
-          LlmEvalRuby::Prompts::Roles::Compiled.new(role: prompt.role, content: compiled)
+          LlmEvalRuby::PromptTypes::Compiled.new(adapter: self, role: prompt.role, content: compiled)
         end
 
         private

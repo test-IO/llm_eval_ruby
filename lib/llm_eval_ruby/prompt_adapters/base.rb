@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "../prompts/roles/user"
-require_relative "../prompts/roles/system"
-require_relative "../prompts/roles/assistant"
+require_relative "../prompt_types/user"
+require_relative "../prompt_types/system"
+require_relative "../prompt_types/assistant"
+require_relative "../prompt_types/compiled"
 
 module LlmEvalRuby
   module PromptAdapters
@@ -28,11 +29,11 @@ module LlmEvalRuby
           response_array.map do |prompt|
             case prompt["role"]
             when "system"
-              LlmEvalRuby::Prompts::Roles::System.new(adapter: self, content: prompt["content"])
+              PromptTypes::System.new(adapter: self, content: prompt["content"])
             when "user"
-              LlmEvalRuby::Prompts::Roles::User.new(adapter: self, content: prompt["content"])
+              PromptTypes::User.new(adapter: self, content: prompt["content"])
             when "assistant"
-              LlmEvalRuby::Prompts::Roles::Assistant.new(adapter: self, content: prompt["content"])
+              PromptTypes::Assistant.new(adapter: self, content: prompt["content"])
             else
               raise "Unsupported role #{prompt["role"]}"
             end
