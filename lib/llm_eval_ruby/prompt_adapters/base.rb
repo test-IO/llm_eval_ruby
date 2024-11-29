@@ -14,7 +14,8 @@ module LlmEvalRuby
         end
 
         def compile(prompt:, variables:)
-          raise NotImplementedError
+          compiled = render_template(prompt.content, variables)
+          LlmEvalRuby::PromptTypes::Compiled.new(adapter: self, role: prompt.role, content: compiled)
         end
 
         private
@@ -38,6 +39,11 @@ module LlmEvalRuby
               raise "Unsupported role #{prompt["role"]}"
             end
           end
+        end
+
+        def render_template(template, variables)
+          template = Liquid::Template.parse(template)
+          template.render(variables.stringify_keys)
         end
       end
     end

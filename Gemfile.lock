@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    llm_eval_ruby (0.2.0)
+    llm_eval_ruby (0.2.1)
       httparty (~> 0.22.0)
+      liquid (~> 5.5.0)
 
 GEM
   remote: https://rubygems.org/
@@ -17,6 +18,7 @@ GEM
       multi_xml (>= 0.5.2)
     json (2.7.5)
     language_server-protocol (3.17.0.3)
+    liquid (5.5.1)
     mini_mime (1.1.5)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)

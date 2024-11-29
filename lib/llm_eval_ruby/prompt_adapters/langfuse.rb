@@ -12,20 +12,10 @@ module LlmEvalRuby
           handle_response(response)
         end
 
-        def compile(prompt:, variables:)
-          compiled = format(convert_prompt(prompt.content), variables)
-          LlmEvalRuby::PromptTypes::Compiled.new(adapter: self, role: prompt.role, content: compiled)
-        end
-
         private
 
         def client
           @client ||= ApiClients::Langfuse.new(**LlmEvalRuby.config.langfuse_options)
-        end
-
-        # convert {{variable}} to %<variable>s
-        def convert_prompt(prompt)
-          prompt.gsub(/\{\{([^}]+)\}\}/, '%<\1>s')
         end
       end
     end
