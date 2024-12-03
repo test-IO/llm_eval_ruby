@@ -71,7 +71,8 @@ module LlmEvalRuby
         body = {
           id: params[:id],
           output: params[:output],
-          endTime: params[:end_time]
+          endTime: params[:end_time],
+          usage: convert_keys_to_camel_case(params[:usage])
         }
         create_event(type: "generation-update", body:)
       end
@@ -90,6 +91,15 @@ module LlmEvalRuby
         }
 
         self.class.post("/ingestion", body: payload.to_json)
+      end
+
+      private
+
+      def convert_keys_to_camel_case(hash)
+        hash.each_with_object({}) do |(key, value), new_hash|
+          camel_case_key = key.gsub(/_([a-z])/) { ::Regexp.last_match(1).upcase }
+          new_hash[camel_case_key] = value
+        end
       end
     end
   end
