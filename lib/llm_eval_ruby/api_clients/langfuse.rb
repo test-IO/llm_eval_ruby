@@ -27,6 +27,7 @@ module LlmEvalRuby
         body = {
           id: params[:id],
           name: params[:name],
+          input: params[:input],
           sessionId: params[:session_id]
         }
         create_event(type: "trace-create", body:)
@@ -36,6 +37,7 @@ module LlmEvalRuby
         body = {
           id: params[:id],
           name: params[:name],
+          input: params[:input],
           traceId: params[:trace_id]
         }
         create_event(type: "span-create", body:)

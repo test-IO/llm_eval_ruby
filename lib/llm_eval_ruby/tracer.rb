@@ -2,6 +2,7 @@
 
 require_relative "trace_adapters/langfuse"
 require_relative "trace_adapters/local"
+
 module LlmEvalRuby
   class Tracer
     attr_reader :adapter

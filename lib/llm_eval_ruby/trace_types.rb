@@ -2,9 +2,9 @@
 
 module LlmEvalRuby
   module TraceTypes
-    Trace = Struct.new(:id, :name, :session_id, keyword_init: true)
+    Trace = Struct.new(:id, :name, :input, :output, :session_id, keyword_init: true)
 
-    Span = Struct.new(:id, :name, :trace_id, :output, :end_time, keyword_init: true)
+    Span = Struct.new(:id, :name, :trace_id, :input, :output, :end_time, keyword_init: true)
 
     Generation = Struct.new(:tracer,
                             :id,
