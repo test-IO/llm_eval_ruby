@@ -7,6 +7,7 @@ module LlmEvalRuby
 
       def initialize(adapter:, content:, role:)
         @adapter = adapter
+        @adapter = adapter.safe_constantize if adapter.is_a?(String)
         @role = role
         @content = content
       end

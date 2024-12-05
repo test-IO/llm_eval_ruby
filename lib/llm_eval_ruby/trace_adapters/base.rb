@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
 module LlmEvalRuby
-  VERSION = "0.2.2"
+  module TraceAdapters
+    class Base
+    end
+  end
 end
