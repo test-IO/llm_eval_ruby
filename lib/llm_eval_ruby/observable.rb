@@ -16,13 +16,22 @@ module LlmEvalRuby
       end
 
       def method_added(method_name)
+        super
         return unless observed_methods.key?(method_name)
 
-        options = observed_methods[method_name]
+        wrap_observed_method(method_name)
+      end
 
+      private
+
+      def wrap_observed_method(method_name)
+        options = observed_methods[method_name]
         original_method = instance_method(method_name)
         observed_methods.delete(method_name)
+        wrap_method(method_name, original_method, options)
+      end
 
+      def wrap_method(method_name, original_method, options)
         define_method(method_name) do |*args, **kwargs, &block|
           result = nil
           input = prepare_input(args, kwargs)
@@ -66,7 +75,7 @@ module LlmEvalRuby
         elsif value.is_a?(String) && value.start_with?("data:image/jpeg;base64,")
           # Trim the byte string while keeping the prefix; set max length limit
           prefix = "data:image/jpeg;base64,"
-          byte_string = value[prefix.length..-1]
+          byte_string = value[prefix.length..]
           trimmed_byte_string = byte_string[0, max_length] # Trim to max_length characters
           hash[key] = "#{prefix}#{trimmed_byte_string}... (truncated)"
         elsif value.is_a?(Array)

@@ -12,7 +12,7 @@ module LlmEvalRuby
           trace = TraceTypes::Trace.new(id: SecureRandom.uuid, **)
           response = client.create_trace(trace.to_h)
 
-          Rails.logger.warn "Failed to create generation" if response["successes"].blank?
+          logger.warn "Failed to create generation" if response["successes"].blank?
 
           trace
         end
@@ -21,7 +21,7 @@ module LlmEvalRuby
           span = TraceTypes::Span.new(id: SecureRandom.uuid, **)
           response = client.create_span(span.to_h)
 
-          Rails.logger.warn "Failed to create span" if response["successes"].blank?
+          logger.warn "Failed to create span" if response["successes"].blank?
 
           if block_given?
             result = yield
@@ -39,7 +39,7 @@ module LlmEvalRuby
           generation = TraceTypes::Generation.new(**)
           response = client.update_generation(generation.to_h)
 
-          Rails.logger.warn "Failed to create generation" if response["successes"].blank?
+          logger.warn "Failed to create generation" if response["successes"].blank?
 
           generation
         end
@@ -47,7 +47,7 @@ module LlmEvalRuby
         def generation(**)
           generation = TraceTypes::Generation.new(id: SecureRandom.uuid, tracer: self, **)
           response = client.create_generation(generation.to_h)
-          Rails.logger.warn "Failed to create generation" if response["successes"].blank?
+          logger.warn "Failed to create generation" if response["successes"].blank?
 
           if block_given?
             result = yield generation
@@ -63,6 +63,10 @@ module LlmEvalRuby
         end
 
         private
+
+        def logger
+          @logger ||= Logger.new($stdout)
+        end
 
         def client
           @client ||= ApiClients::Langfuse.new(**LlmEvalRuby.config.langfuse_options)
