@@ -28,7 +28,8 @@ module LlmEvalRuby
           id: params[:id],
           name: params[:name],
           input: params[:input],
-          sessionId: params[:session_id]
+          sessionId: params[:session_id],
+          userId: params[:user_id]
         }
         create_event(type: "trace-create", body:)
       end
