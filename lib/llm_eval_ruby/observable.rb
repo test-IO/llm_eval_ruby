@@ -49,7 +49,55 @@ module LlmEvalRuby
     def prepare_input(*args, **kwargs)
       return nil if args.empty? && kwargs.empty?
 
-      Array[*args, **kwargs].flatten
+      inputs = deep_copy(Array[*args, **kwargs].flatten)
+      inputs.each do |item|
+        trim_base64_images(item) if item.is_a?(Hash)
+      end
+
+      inputs
+    end
+
+    def trim_base64_images(hash, max_length = 30)
+      # Iterate through each key-value pair in the hash
+      hash.each do |key, value|
+        if value.is_a?(Hash)
+          # Recursively process nested hashes
+          trim_base64_images(value, max_length)
+        elsif value.is_a?(String) && value.start_with?("data:image/jpeg;base64,")
+          # Trim the byte string while keeping the prefix; set max length limit
+          prefix = "data:image/jpeg;base64,"
+          byte_string = value[prefix.length..-1]
+          trimmed_byte_string = byte_string[0, max_length] # Trim to max_length characters
+          hash[key] = "#{prefix}#{trimmed_byte_string}... (truncated)"
+        elsif value.is_a?(Array)
+          # Recursively process arrays
+          value.each do |element|
+            trim_base64_images(element, max_length) if element.is_a?(Hash)
+          end
+        end
+      end
+      hash
+    end
+
+    def deep_copy(obj)
+      case obj
+      when Numeric, Symbol, NilClass, TrueClass, FalseClass
+        obj
+      when String
+        obj.dup
+      when Array
+        obj.map { |e| deep_copy(e) }
+      when Hash
+        obj.each_with_object({}) do |(key, value), result|
+          result[deep_copy(key)] = deep_copy(value)
+        end
+      else
+        begin
+          Marshal.load(Marshal.dump(obj))
+        rescue TypeError
+          nil # or handle as needed, perhaps log or raise a specific error
+        end
+      end
     end
   end
 end
