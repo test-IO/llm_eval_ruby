@@ -62,7 +62,7 @@ module LlmEvalRuby
         end
 
         def client
-          @client ||= ApiClients::Langfuse.new(**kwargsLlmEvalRuby.config.langfuse_options)
+          @client ||= ApiClients::Langfuse.new(**LlmEvalRuby.config.langfuse_options)
         end
 
         def end_span(span, result)
