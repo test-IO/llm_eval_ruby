@@ -50,7 +50,7 @@ module LlmEvalRuby
 
           result = yield generation
 
-          finish_generation(generation, result)
+          end_generation(generation, result)
 
           result
         end
