@@ -43,7 +43,7 @@ module LlmEvalRuby
 
         def render_template(template, variables)
           template = Liquid::Template.parse(template)
-          template.render(variables.stringify_keys)
+          template.render(variables.deep_stringify_keys)
         end
       end
     end
