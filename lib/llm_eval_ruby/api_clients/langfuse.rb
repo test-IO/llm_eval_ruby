@@ -29,7 +29,8 @@ module LlmEvalRuby
           name: params[:name],
           input: params[:input],
           sessionId: params[:session_id],
-          userId: params[:user_id]
+          userId: params[:user_id],
+          metadata: params[:metadata] || {}
         }
         create_event(type: "trace-create", body:)
       end
@@ -39,7 +40,8 @@ module LlmEvalRuby
           id: params[:id],
           name: params[:name],
           input: params[:input],
-          traceId: params[:trace_id]
+          traceId: params[:trace_id],
+          metadata: params[:metadata] || {}
         }
         create_event(type: "span-create", body:)
       end
@@ -48,7 +50,8 @@ module LlmEvalRuby
         body = {
           id: params[:id],
           output: params[:output],
-          endTime: params[:end_time]
+          endTime: params[:end_time],
+          metadata: params[:metadata] || {}
         }
         create_event(type: "span-update", body:)
       end
@@ -75,7 +78,8 @@ module LlmEvalRuby
           id: params[:id],
           output: params[:output],
           endTime: params[:end_time],
-          usage: convert_keys_to_camel_case(params[:usage])
+          usage: convert_keys_to_camel_case(params[:usage]),
+          metadata: params[:metadata] || {}
         }
         create_event(type: "generation-update", body:)
       end
@@ -86,7 +90,7 @@ module LlmEvalRuby
             {
               id: SecureRandom.uuid,
               type:,
-              body:,
+              body: body.deep_stringify_keys,
               timestamp: Time.now.utc.iso8601,
               metadata: {}
             }

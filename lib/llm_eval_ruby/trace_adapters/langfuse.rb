@@ -25,7 +25,7 @@ module LlmEvalRuby
 
           return span unless block_given?
 
-          result = yield
+          result = yield span
 
           end_span(span, result)
 

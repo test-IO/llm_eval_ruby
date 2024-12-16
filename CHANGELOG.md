@@ -15,3 +15,7 @@
 ## [0.2.4] - 2024-12-12
 
 - [Hotfix] prompts could not compile with variables having nested hashes with keys as symbols.
+
+## [0.2.5] - 2024-12-16
+
+- Added metadata field to traces.
