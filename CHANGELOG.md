@@ -19,3 +19,7 @@
 ## [0.2.5] - 2024-12-16
 
 - Added metadata field to traces.
+
+## [0.2.6] - 2025-03-07
+
+- Fixed span for local adapter.
