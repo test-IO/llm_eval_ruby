@@ -21,7 +21,7 @@ module LlmEvalRuby
 
           return span unless block_given?
 
-          result = yield
+          result = yield span
 
           end_span(span, result)
 
@@ -43,7 +43,7 @@ module LlmEvalRuby
 
           return generation unless block_given?
 
-          result = yield
+          result = yield generation
 
           end_generation(generation, result)
 
