@@ -19,7 +19,7 @@ module LlmEvalRuby
         # └── v3
         #     ├── system.txt
         #     └── user.txt
-        def fetch_prompt(name:, version: nil) # rubocop:disable Lint/UnusedMethodArgument
+        def fetch_prompt(name:, version: nil)
           prompt_path = Rails.root.join(LlmEvalRuby.config.local_options[:prompts_path], name.to_s, version.to_s)
 
           system_prompts = Dir.glob("#{prompt_path}/system.txt").map do |path|
