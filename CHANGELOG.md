@@ -24,6 +24,6 @@
 
 - Fixed span for local adapter.
 
-## [0.2.6] - 2025-03-07
+## [0.2.7] - 2025-04-01
 
 - Added support for prompt versioning in the local adapter.
