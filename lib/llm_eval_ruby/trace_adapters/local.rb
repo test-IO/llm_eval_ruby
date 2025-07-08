@@ -14,6 +14,14 @@ module LlmEvalRuby
           trace
         end
 
+        def update_trace(**kwargs)
+          trace = TraceTypes::Trace.new(id: SecureRandom.uuid, **kwargs)
+
+          logger.info("Trace updated: #{JSON.pretty_generate(trace.to_h)}")
+
+          trace
+        end
+
         def span(**kwargs)
           span = TraceTypes::Span.new(id: SecureRandom.uuid, **kwargs)
 
