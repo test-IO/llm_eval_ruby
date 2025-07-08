@@ -11,6 +11,10 @@ module LlmEvalRuby
       new(adapter: LlmEvalRuby.config.adapter).trace(...)
     end
 
+    def self.update_trace(...)
+      new(adapter: LlmEvalRuby.config.adapter).update_trace(...)
+    end
+
     def self.span(...)
       new(adapter: LlmEvalRuby.config.adapter).span(...)
     end
@@ -36,6 +40,10 @@ module LlmEvalRuby
 
     def trace(...)
       adapter.trace(...)
+    end
+
+    def update_trace(...)
+      adapter.update_trace(...)
     end
 
     def span(...)

@@ -35,6 +35,15 @@ module LlmEvalRuby
         create_event(type: "trace-create", body:)
       end
 
+      def update_trace(params = {})
+        body = {
+          id: params[:id],
+          output: params[:output]
+        }
+        # WARNING! trace-create is used for update as well they do upsert if id is provided
+        create_event(type: "trace-create", body:)
+      end
+
       def create_span(params = {})
         body = {
           id: params[:id],

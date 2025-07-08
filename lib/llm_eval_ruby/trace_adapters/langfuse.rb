@@ -17,6 +17,15 @@ module LlmEvalRuby
           trace
         end
 
+        def update_trace(**kwargs)
+          trace = TraceTypes::Trace.new(**kwargs)
+          response = client.update_trace(trace.to_h)
+
+          logger.warn "Failed to update trace" if response["successes"].blank?
+
+          trace
+        end
+
         def span(**kwargs)
           span = TraceTypes::Span.new(id: SecureRandom.uuid, **kwargs)
           response = client.create_span(span.to_h)
