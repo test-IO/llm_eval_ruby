@@ -27,7 +27,7 @@ module LlmEvalRuby
       # Langfuse does an upsert if id is given
       def create_trace(params = {})
         body = {
-          id: params[:id],
+          id: params[:id]
         }
         body[:name] = params[:name] if params[:name]
         body[:input] = params[:input] if params[:input]
