@@ -71,6 +71,7 @@ module LlmEvalRuby
           release: params[:release] || "UNKNOWN",
           version: params[:version] || "UNKNOWN",
           metadata: params[:metadata] || {},
+          model: params[:metadata] || "UNKNOWN",
           promptName: params[:prompt_name],
           promptVersion: params[:prompt_version]
         }
