@@ -17,6 +17,7 @@ module LlmEvalRuby
                             :prompt_version,
                             :usage,
                             :metadata,
+                            :model,
                             keyword_init: true) do
       def end(output:, usage: nil)
         self.output = output
