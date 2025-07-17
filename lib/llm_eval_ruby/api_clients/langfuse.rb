@@ -23,15 +23,19 @@ module LlmEvalRuby
         response["prompt"]
       end
 
+      # We are using the same method for updating trace
+      # Langfuse does an upsert if id is given
       def create_trace(params = {})
         body = {
-          id: params[:id],
-          name: params[:name],
-          input: params[:input],
-          sessionId: params[:session_id],
-          userId: params[:user_id],
-          metadata: params[:metadata] || {}
+          id: params[:id]
         }
+        body[:name] = params[:name] if params[:name]
+        body[:input] = params[:input] if params[:input]
+        body[:sessionId] = params[:session_id] if params[:session_id]
+        body[:userId] = params[:user_id] if params[:user_id]
+        body[:metadata] = params[:metadata] if params[:metadata]
+        body[:output] = params[:output] if params[:output]
+
         create_event(type: "trace-create", body:)
       end
 
@@ -67,6 +71,7 @@ module LlmEvalRuby
           release: params[:release] || "UNKNOWN",
           version: params[:version] || "UNKNOWN",
           metadata: params[:metadata] || {},
+          model: params[:model] || "UNKNOWN",
           promptName: params[:prompt_name],
           promptVersion: params[:prompt_version]
         }
