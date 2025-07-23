@@ -27,3 +27,7 @@
 ## [0.2.7] - 2025-03-07
 
 - Fixed generation update and model field in traces.
+
+## [0.2.8] - 2025-23-07
+
+- Prompt management
