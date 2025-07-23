@@ -23,6 +23,17 @@ module LlmEvalRuby
         response["prompt"]
       end
 
+      # query:
+      #   name
+      #   label
+      #   tag
+      #   page
+      #   limit
+      def get_prompts(query={})
+        response = self.class.get("/v2/prompts", { query: query })
+        response["data"]
+      end
+
       # We are using the same method for updating trace
       # Langfuse does an upsert if id is given
       def create_trace(params = {})
