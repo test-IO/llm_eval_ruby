@@ -16,15 +16,15 @@ module LlmEvalRuby
         new(adapter: LlmEvalRuby.config.adapter).fetch_and_compile(name: name, variables: variables, version: version)
       end
 
-      def initialize(adapter:)
-        case adapter
-        when :langfuse
-          @adapter = PromptAdapters::Langfuse
-        when :local
-          @adapter = PromptAdapters::Local
-        else
-          raise "Unsupported adapter #{adapter}"
-        end
+      def initialize(adapter:, client: nil)
+        @adapter = case adapter
+                   when :langfuse
+                     PromptAdapters::Langfuse.new(client:)
+                   when :local
+                     PromptAdapters::Local
+                   else
+                     raise "Unsupported adapter #{adapter}"
+                   end
       end
 
       def fetch(name:, version: nil)

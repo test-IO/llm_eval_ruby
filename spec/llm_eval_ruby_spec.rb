@@ -2,6 +2,6 @@
 
 RSpec.describe LlmEvalRuby do
   it "has a version number" do
-    expect(LlmEvalRuby::VERSION).to be("0.2.7")
+    expect(LlmEvalRuby::VERSION).to eq("0.3.0")
   end
 end

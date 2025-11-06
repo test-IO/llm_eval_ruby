@@ -23,15 +23,15 @@ module LlmEvalRuby
       new(adapter: LlmEvalRuby.config.adapter).update_generation(...)
     end
 
-    def initialize(adapter:)
-      case adapter
-      when :langfuse
-        @adapter = TraceAdapters::Langfuse
-      when :local
-        @adapter = TraceAdapters::Local
-      else
-        raise "Unsupported adapter #{adapter}"
-      end
+    def initialize(adapter:, client: nil)
+      @adapter = case adapter
+                 when :langfuse
+                   TraceAdapters::Langfuse.new(client:)
+                 when :local
+                   TraceAdapters::Local
+                 else
+                   raise "Unsupported adapter #{adapter}"
+                 end
     end
 
     def trace(...)

@@ -1,5 +1,14 @@
 ## [Unreleased]
 
+## [0.3.0] - 2025-11-06
+
+- Added custom Langfuse client support for Tracer and PromptRepositories
+- Tracer and PromptRepositories now accept optional `client:` parameter
+- Langfuse adapters converted to instance-based for client injection
+- Fixed ActiveSupport dependency issues (replaced `.blank?` and `.deep_stringify_keys`)
+- Made `handle_response` public in PromptAdapters::Base
+- Added comprehensive test coverage (49 new tests)
+
 ## [0.1.0] - 2024-11-26
 
 - Initial release

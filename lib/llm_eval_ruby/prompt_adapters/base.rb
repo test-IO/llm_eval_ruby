@@ -18,8 +18,6 @@ module LlmEvalRuby
           LlmEvalRuby::PromptTypes::Compiled.new(adapter: self, role: prompt.role, content: compiled)
         end
 
-        private
-
         def handle_response(response)
           response.is_a?(Array) ? wrap_response(response) : wrap_response({ "role" => "system", "content" => response })
         end
@@ -43,7 +41,14 @@ module LlmEvalRuby
 
         def render_template(template, variables)
           template = Liquid::Template.parse(template)
-          template.render(variables.deep_stringify_keys)
+          stringified_variables = stringify_keys(variables)
+          template.render(stringified_variables)
+        end
+
+        def stringify_keys(hash)
+          hash.transform_keys(&:to_s).transform_values do |value|
+            value.is_a?(Hash) ? stringify_keys(value) : value
+          end
         end
       end
     end

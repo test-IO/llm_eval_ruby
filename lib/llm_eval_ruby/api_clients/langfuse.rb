@@ -29,7 +29,7 @@ module LlmEvalRuby
       #   tag
       #   page
       #   limit
-      def get_prompts(query={})
+      def get_prompts(query = {})
         response = self.class.get("/v2/prompts", { query: query })
         response["data"]
       end
