@@ -203,6 +203,39 @@ Please summarize the following text for {{ user_name }}:
 
 ### Advanced Usage
 
+#### Using Custom Langfuse Clients
+
+You can pass custom Langfuse client instances to use different credentials per request:
+
+```ruby
+# Create a custom client with different credentials
+custom_client = LlmEvalRuby::ApiClients::Langfuse.new(
+  host: "https://custom-langfuse.com",
+  username: "custom_public_key",
+  password: "custom_secret_key"
+)
+
+# Use custom client with Tracer
+tracer = LlmEvalRuby::Tracer.new(adapter: :langfuse, client: custom_client)
+tracer.trace(name: "custom_trace", input: { query: "test" })
+
+# Use custom client with Text repository
+text_repo = LlmEvalRuby::PromptRepositories::Text.new(
+  adapter: :langfuse,
+  client: custom_client
+)
+prompt = text_repo.fetch(name: "my_prompt")
+
+# Use custom client with Chat repository
+chat_repo = LlmEvalRuby::PromptRepositories::Chat.new(
+  adapter: :langfuse,
+  client: custom_client
+)
+messages = chat_repo.fetch(name: "chat_prompt")
+```
+
+If no client is provided, the default client from `langfuse_options` configuration is used.
+
 #### Updating Generations
 
 ```ruby

@@ -7,78 +7,81 @@ require_relative "../trace_types"
 module LlmEvalRuby
   module TraceAdapters
     class Langfuse < Base
-      class << self
-        def trace(**kwargs)
-          trace = TraceTypes::Trace.new(id: SecureRandom.uuid, **kwargs)
-          response = client.create_trace(trace.to_h)
+      def initialize(client: nil)
+        super()
+        @client = client
+      end
 
-          logger.warn "Failed to create generation" if response["successes"].blank?
+      def trace(**kwargs)
+        trace = TraceTypes::Trace.new(id: SecureRandom.uuid, **kwargs)
+        response = client.create_trace(trace.to_h)
 
-          trace
-        end
+        logger.warn "Failed to create generation" if response["successes"].nil? || response["successes"].empty?
 
-        def span(**kwargs)
-          span = TraceTypes::Span.new(id: SecureRandom.uuid, **kwargs)
-          response = client.create_span(span.to_h)
+        trace
+      end
 
-          logger.warn "Failed to create span" if response["successes"].blank?
+      def span(**kwargs)
+        span = TraceTypes::Span.new(id: SecureRandom.uuid, **kwargs)
+        response = client.create_span(span.to_h)
 
-          return span unless block_given?
+        logger.warn "Failed to create span" if response["successes"].nil? || response["successes"].empty?
 
-          result = yield span
+        return span unless block_given?
 
-          end_span(span, result)
+        result = yield span
 
-          result
-        end
+        end_span(span, result)
 
-        def update_generation(**kwargs)
-          generation = TraceTypes::Generation.new(**kwargs)
-          response = client.update_generation(generation.to_h)
+        result
+      end
 
-          logger.warn "Failed to create generation" if response["successes"].blank?
+      def update_generation(**kwargs)
+        generation = TraceTypes::Generation.new(**kwargs)
+        response = client.update_generation(generation.to_h)
 
-          generation
-        end
+        logger.warn "Failed to create generation" if response["successes"].nil? || response["successes"].empty?
 
-        def generation(**kwargs)
-          generation = TraceTypes::Generation.new(id: SecureRandom.uuid, tracer: self, **kwargs)
-          response = client.create_generation(generation.to_h)
-          logger.warn "Failed to create generation" if response["successes"].blank?
+        generation
+      end
 
-          return generation unless block_given?
+      def generation(**kwargs)
+        generation = TraceTypes::Generation.new(id: SecureRandom.uuid, tracer: self, **kwargs)
+        response = client.create_generation(generation.to_h)
+        logger.warn "Failed to create generation" if response["successes"].nil? || response["successes"].empty?
 
-          result = yield generation
+        return generation unless block_given?
 
-          end_generation(generation, result)
+        result = yield generation
 
-          result
-        end
+        end_generation(generation, result)
 
-        private
+        result
+      end
 
-        def logger
-          @logger ||= Logger.new($stdout)
-        end
+      private
 
-        def client
-          @client ||= ApiClients::Langfuse.new(**LlmEvalRuby.config.langfuse_options)
-        end
+      def logger
+        @logger ||= Logger.new($stdout)
+      end
 
-        def end_span(span, result)
-          span.end_time = Time.now.utc.iso8601
-          span.output = result
+      def client
+        @client ||= ApiClients::Langfuse.new(**LlmEvalRuby.config.langfuse_options)
+      end
 
-          client.update_span(span.to_h)
-        end
+      def end_span(span, result)
+        span.end_time = Time.now.utc.iso8601
+        span.output = result
 
-        def end_generation(generation, result)
-          generation.output = result.dig("choices", 0, "message", "content")
-          generation.usage = result["usage"]
-          generation.end_time = Time.now.utc.iso8601
+        client.update_span(span.to_h)
+      end
 
-          client.update_generation(generation.to_h)
-        end
+      def end_generation(generation, result)
+        generation.output = result.dig("choices", 0, "message", "content")
+        generation.usage = result["usage"]
+        generation.end_time = Time.now.utc.iso8601
+
+        client.update_generation(generation.to_h)
       end
     end
   end
