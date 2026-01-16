@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
-  spec.add_dependency "httparty", "~> 0.22.0"
+  spec.add_dependency "httparty", "~> 0.24.0"
   spec.add_dependency "liquid", "~> 5.5.0"
 
   # For more information and examples about making a new gem, check out our
