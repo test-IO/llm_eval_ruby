@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    llm_eval_ruby (0.3.1)
+    llm_eval_ruby (0.3.2)
       httparty (~> 0.24.0)
       liquid (~> 5.5.0)
 
